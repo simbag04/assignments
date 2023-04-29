@@ -1,0 +1,397 @@
+:root
+{
+    --header-background: #1565c0; 
+    --darker-background: #bbdefb;
+    --middle-background: #FFFFFF;
+    --light-background: #e3f2fd;
+
+    /* PREV COLORS: 
+    --header-background: #595959;
+    --middle-background: #cccccc;
+    --darker-background: #ced4da;
+    --light-background: #e9ecef;
+    */
+}
+
+html {
+    height: fit-content;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* BODY LAYOUT FORMATTING*/
+body
+{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    justify-content: stretch;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    position: relative;
+    width: 100%;
+}
+
+
+/* HEADER FORMATTING*/
+.header
+{
+    grid-column: 1 / 3;
+    font-size: 40px;
+    padding: 20px 0px;
+    background-color: var(--header-background);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* TITLES */
+.title
+{
+    font-size: 24px;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.popup-title
+{
+    display: flex;
+    padding: 0px 0px;
+    align-items: center;
+    justify-content: center;
+}
+
+.small-title
+{
+    font-size: 20px;
+}
+
+.matrix-popup-close-button 
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* buttons styling */
+.big-button
+{
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid black;
+    color: black;
+    background-color: var(--darker-background);
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.small-button
+{
+    font-size: 14px;
+    color: black;
+    border-radius: 3px;
+    padding: 3px 5px;
+    font-weight: bold;
+}
+
+.popup-button {
+    padding: 4px 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+button:hover, .small-button:hover
+{
+    background-color: var(--header-background);
+    border: 2px solid var(--header-background);
+    color: white;
+}
+
+/* svgs styling */
+svg
+{
+    width: 1.2rem;
+    height: auto;
+}
+
+.svg
+{
+    display: flex;
+    align-items: center;
+}
+
+svg:hover
+{
+    fill: red;
+}
+
+/* MATRIX POPUP */
+.popup
+{
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+    background-color: var(--middle-background);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.matrix-table
+{
+    border-collapse: collapse;
+    
+}
+
+.matrix-table input
+{
+    border: none;
+    font-size: 12px;
+}
+
+.matrix-table th
+{
+    font-size: 11px;
+}
+
+.matrix-table td
+{
+    border: 2px solid black;
+    margin: 0;
+    padding: 0;
+}
+
+.matrix-table input[type='number']
+{
+    width: 1em;
+    text-align: center;
+}
+
+.td-div
+{
+    display: flex;
+}
+
+/* coloring for matrix cells */
+.lightgray
+{
+    background-color: var(--darker-background);
+}
+
+.green
+{
+    background-color: green;
+    font-weight: bold;
+    color: white;
+}
+
+.sub-member-input-div, .sub-text-assignments-div
+{
+    padding: 20px;
+}
+
+/* Member Input Styling*/
+.member-input
+{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.member-input-div
+{
+    background-color: var(--middle-background);
+    width: 100%;
+}
+
+.member-info-input
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* war size/buttons styling */
+.war-size-input
+{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-self: start;
+}
+
+#war-size-dropdown
+{
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid black;
+    background-color: var(--darker-background);
+    border-radius: 5px;
+}
+
+#war-size-dropdown option
+{
+    padding: 0px;
+}
+
+.member-input-buttons
+{
+    align-self: start;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+#total-stars
+{
+    min-width: 100%;
+    width: 0;
+}
+
+/* Individual capabilities styling */
+.member-capability-popup
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* table layout styling */
+.standard-table
+{
+    padding: 10px;
+    border-collapse: collapse;
+    border: 2px solid var(--header-background);
+}
+
+.standard-table td
+{
+    padding: 5px 3px;
+}
+
+.standard-table .hidden-td 
+{
+    padding: 0px;
+}
+
+.standard-table th
+{
+    font-size: 16px;
+    padding: 8px 5px;
+}
+
+/* set size of input fields */
+.standard-table input
+{
+    font-size: 16px;
+    text-align: center;
+}
+
+.member-info-input .th
+{
+    width: 2em;
+}
+
+.name-input
+{
+    width: 6em;
+}
+
+/* right and left padding for each row */
+td.first-td
+{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+
+.last-td
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.standard-table .last-th 
+{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+
+.first-td
+{
+    margin-left: 5px;
+    margin-right: 5px;
+    border: none;
+    text-align: center;
+    width: 2em;
+}
+
+/* shading of rows */
+.odd-row th
+{
+    background-color: var(--header-background);
+    color: white;
+}
+
+.odd-row td, .odd-row .pos, .odd-row input
+{
+    background-color: var(--light-background);
+    border: none;
+}
+
+.odd-row button
+{
+    background-color: var(--light-background);
+    border: 2px solid var(--light-background);
+}
+
+.even-row td, .even-row .pos, .even-row input
+{
+    background-color: var(--darker-background);
+    border: none;
+}
+
+.even-row button
+{
+    background-color: var(--darker-background);
+    border: 2px solid var(--darker-background);
+}
+
+.header-row .cap-assignment-header
+{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.assignment-td
+{
+    font-weight: bold;
+    text-align: center;
+}
+
+/* general input styling */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
