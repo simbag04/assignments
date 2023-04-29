@@ -50,7 +50,7 @@ const domController = (() => {
         submitButton.setAttribute('type', 'submit');
 
 
-        
+        /*
         // create button to view matrix
         let button = createElement('button', "view-matrix-button", "View Matrix", buttons, 'big-button');
         button.setAttribute('type', 'button');
@@ -58,7 +58,7 @@ const domController = (() => {
         button.addEventListener('click', () => {
             displayMatrix();
         })
-        
+        */
 
         // create copy button
         let copyButton = createElement('button', "copy-button", "Copy", buttons, 'big-button');
@@ -427,15 +427,11 @@ const domController = (() => {
 
             // create tds
             let opponentTD = document.querySelector('#target-' + i);
-            let opponentInput = createElement('input', "target-input-" + i, "", opponentTD);
-            opponentInput.setAttribute('type', 'number');
-            opponentInput.value = j + 1;
+            opponentTD.textContent = j + 1;
             opponentTD.classList.remove('hidden-td');
 
             let starsTD = document.querySelector('#stars-' + i);
-            let starsInput = createElement('input', 'stars-input-' + i, "", starsTD);
-            starsInput.setAttribute('type', 'number');
-            starsInput.value = matrix[i][j];
+            starsTD.textContent = matrix[i][j];
             starsTD.classList.remove('hidden-td');
 
             stars += Number(matrix[i][j]);
@@ -602,7 +598,7 @@ const domController = (() => {
     }
 
     const displayPostAssignment = (stars) => {
-        document.querySelector('#view-matrix-button').style.display = 'inline-block';
+        // document.querySelector('#view-matrix-button').style.display = 'inline-block';
         let copy = document.querySelector('#copy-button')
         copy.style.display = 'inline-block';
         copy.textContent = "Copy"; 
@@ -612,7 +608,7 @@ const domController = (() => {
     }
 
     const displayPreAssignment = () => {
-        document.querySelector('#view-matrix-button').style.display = 'none';
+        // document.querySelector('#view-matrix-button').style.display = 'none';
         document.querySelector('#copy-button').style.display = 'none';
         document.querySelector("#total-stars").style.display = "none";
     }
