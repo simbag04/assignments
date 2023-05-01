@@ -4,6 +4,8 @@ function Member (name, memberTH, opponentTH) {
     this.memberTH = memberTH;
     this.opponentTH = opponentTH;
     this.capabilities = capabilities.getArray(memberTH);
+    this.target = null;
+    this.stars = null;
 }
 
 Member.prototype.editCapability = function(th, stars) {
@@ -12,6 +14,16 @@ Member.prototype.editCapability = function(th, stars) {
 
 Member.prototype.resetCapability = function() {
     this.capabilities = capabilities.getArray(this.memberTH);
+}
+
+Member.prototype.assign = function(num, stars) {
+    this.target = num;
+    this.stars = stars;
+}
+
+Member.prototype.unassign = function() {
+    this.target = null;
+    this.stars = null;
 }
 
 export {Member};

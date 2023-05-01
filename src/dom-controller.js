@@ -48,8 +48,6 @@ const domController = (() => {
         // create submitButton
         let submitButton = createElement('button', "", "Assign", buttons, 'big-button', 'member-input-submit');
         submitButton.setAttribute('type', 'submit');
-
-
         
         // create button to view matrix
         let button = createElement('button', "view-matrix-button", "View Matrix", buttons, 'big-button');
@@ -58,19 +56,30 @@ const domController = (() => {
         button.addEventListener('click', () => {
             displayMatrix();
         })
-        
-
+    
         // create copy button
         let copyButton = createElement('button', "copy-button", "Copy", buttons, 'big-button');
         copyButton.setAttribute('type', 'button');
-        copyButton.display = 'none';
+        copyButton.style.display = 'none';
         copyButton.addEventListener('click', () => {
             navigator.clipboard.writeText(getTextAssignments());
             copyButton.textContent = "Copied!";
         })
 
-        let totalStars = createElement('div', "total-stars", "", buttons, 'title');
+        let resetButton = createElement('button', "reset-button", "Reset", buttons, 'big-button');
+        resetButton.setAttribute('type', 'button');
+        resetButton.addEventListener('click', () => {
+            let members = lineup.getLineup();
+            for (let i = 0; i < members.length; i++) {
+                matrixGenerator.unassignBase(i);
+                matrixGenerator.generate();
+            }
+            if (basesAssigned()) {
+                assignBases();
+            }
+        })
 
+        createElement('div', "total-stars", "", buttons, 'title');
 
         createMembersSection();
         form.addEventListener('submit', (e) => {
@@ -88,7 +97,9 @@ const domController = (() => {
                 lineup.removeMember(numMembers);
             }
 
-            matrixGenerator.generate();
+            if (matrixGenerator.getMatrix() == null || matrixGenerator.getMatrix().length != numMembers) {
+                matrixGenerator.generate();
+            }
             renderText();
             renderMatrix();
         })
@@ -144,8 +155,7 @@ const domController = (() => {
         createElement('th', "stars-header", "", headerRow, "assignment-header", 'hidden-td');
         createElement('th', "", "TH", headerRow);
         createElement('th', "", "Opp", headerRow);
-
-
+        createElement('th', "", "", headerRow, 'hidden-td');
         headerRow.appendChild(document.createElement('th'));
         headerRow.appendChild(document.createElement('th'));
 
@@ -196,7 +206,7 @@ const domController = (() => {
                 }
             })
 
-            // target/stars td
+            // target/stars/checkbox td
             createElement('td', "target-" + i, "", row, "assignment-td", 'hidden-td');
             createElement('td', "stars-" + i, "", row, "assignment-td", 'hidden-td');
 
@@ -223,7 +233,7 @@ const domController = (() => {
             
             // opp th input
             let oppThTD = createElement('td', "", "", row);
-            let oppThInput = createElement('input', "oppTh-" + i, "", oppThTD, 'th');
+            let oppThInput = createElement('input', "oppTh-" + i, "", oppThTD);
             oppThInput.setAttribute('type', 'number');
             oppThInput.setAttribute('required', true);
             oppThInput.setAttribute('min', 8);
@@ -236,13 +246,14 @@ const domController = (() => {
                     lineup.replaceMember(member, i);
                     storage.setStorage();
                 }
-                if (document.querySelector("#target-1").textContent != "") {    
+                if (basesAssigned()) {    
                     matrixGenerator.generate();
                     assignBases();
                 }
                 
             })
 
+            createElement('td', "check-td-" + i, "", row, 'hidden-td');
 
             // edit capabilities button
             let editCapabilityTD = createElement('td', "", "", row);
@@ -341,8 +352,14 @@ const domController = (() => {
 
         let length = matrix.length;
 
+        // arrays to keep track of headers for event listeners
+        let numHeadersOne = [];
+        let numHeadersTwo = [];
+        let nameHeadersOne = [];
+        let nameHeadersTwo = [];
+
         // create title
-        let title = createElement('div', '', "Assignments", assignmentsDiv, 'popup-title', 'title');
+        createElement('div', '', "Assignments", assignmentsDiv, 'popup-title', 'title');
 
         // create matrix div
         let matrixDiv = createElement('table', "", "", assignmentsDiv, 'matrix-table');
@@ -354,15 +371,17 @@ const domController = (() => {
         // create headers
         for (let i = 0; i < length; i++)
         {
-            createElement('th', "", i + 1, headerRow);
+            numHeadersOne[i] = createElement('th', "matrix-opp-" + i, i + 1, headerRow);
         }
+
+        createElement('th', "", "", headerRow);
 
         for (let i = 0; i < length; i++)
         {
             let row = createElement('tr', "", "", matrixDiv);
 
             // create row 
-            createElement('th', "", lineup.getLineup()[i].name, row);
+            nameHeadersOne[i] = createElement('th', "", lineup.getLineup()[i].name, row);
 
             let assignment = assignments[i];
             for (let j = 0; j < length; j++)
@@ -382,9 +401,29 @@ const domController = (() => {
 
                 if ((i + j) % 2 == 0)
                 {
-                    element.classList.add('lightgray');
+                    element.classList.add('light');
                 }
-                else element.classList.add('white');
+                else element.classList.add('dark');
+
+                if (element.value == -1) {
+                    element.value = "0";
+                    element.disabled = true;
+                    // element.style.opacity = "0%";
+                }
+
+                tdDiv.addEventListener('mouseover', () => {
+                    nameHeadersOne[i].style.opacity = "0.7";
+                    numHeadersOne[j].style.opacity = "0.7";
+                    nameHeadersTwo[i].style.opacity = "0.7";
+                    numHeadersTwo[j].style.opacity = "0.7";
+                })
+
+                tdDiv.addEventListener('mouseout', () => {
+                    nameHeadersOne[i].style.opacity = "1";
+                    numHeadersOne[j].style.opacity = "1";
+                    nameHeadersTwo[i].style.opacity = "1";
+                    numHeadersTwo[j].style.opacity = "1";
+                })
 
                 element.addEventListener('change', () => {
                     matrixGenerator.setMatrix(i, j, element.value);
@@ -392,9 +431,26 @@ const domController = (() => {
                     renderText();
                 })
             }
+
+            nameHeadersTwo[i] = createElement('th', "", lineup.getLineup()[i].name, row);
         }
 
-        createPopupCloseButton(assignmentsDiv, "Close");
+        // create headers
+        let secondHeaderRow = createElement('tr', "", "", matrixDiv);
+        createElement('th', "", "", secondHeaderRow);
+
+        // create headers
+        for (let i = 0; i < length; i++)
+        {
+            numHeadersTwo[i] = createElement('th', "matrix-opp-2-" + i, i + 1, secondHeaderRow);
+        }
+
+        createElement('th', "", "", secondHeaderRow);
+
+        let buttons = createDiv('buttons', assignmentsDiv);
+        createPopupCloseButton(buttons, "Close");
+
+        storage.setStorage();
         
     }
 
@@ -406,6 +462,9 @@ const domController = (() => {
         assign.makeAssignments();
         const assignments = assign.getAssignments();
         const matrix = matrixGenerator.getMatrix();
+
+        // get lineup
+        let members = lineup.getLineup();
 
         // opponent header
         let oppHeader = document.querySelector('#target-header');
@@ -427,16 +486,54 @@ const domController = (() => {
 
             // create tds
             let opponentTD = document.querySelector('#target-' + i);
+            opponentTD.innerHTML = "";
             let opponentInput = createElement('input', "target-input-" + i, "", opponentTD);
             opponentInput.setAttribute('type', 'number');
-            opponentInput.value = j + 1;
+            opponentInput.setAttribute('min', 1);
+            opponentInput.setAttribute('max', 30);
+            opponentInput.value = Number(j + 1);
             opponentTD.classList.remove('hidden-td');
 
             let starsTD = document.querySelector('#stars-' + i);
+            starsTD.innerHTML = "";
             let starsInput = createElement('input', 'stars-input-' + i, "", starsTD);
             starsInput.setAttribute('type', 'number');
-            starsInput.value = matrix[i][j];
+            starsInput.setAttribute('min', 1);
+            starsInput.setAttribute('max', 3);
+            starsInput.value = Number(matrix[i][j]);
             starsTD.classList.remove('hidden-td');
+
+            opponentInput.addEventListener('change', () => {
+                matrixGenerator.unassignBase(i);
+                let matrix = matrixGenerator.getMatrix();
+                let opp = opponentInput.value - 1;
+                matrixGenerator.assignBase(i, opp);
+                assignBases();
+            })
+
+            starsInput.addEventListener('change', () => {
+                // let opponent = opponentInput.value - 1;
+                matrixGenerator.setMatrix(i, j, starsInput.value);
+                assignBases();
+            })
+
+            let assignedTD = document.querySelector("#check-td-" + i);
+            assignedTD.innerHTML = "";
+            let checkbox = createElement('input', "assigned-" + i, "", assignedTD);
+            checkbox.setAttribute('type', 'checkbox');
+            checkbox.checked = members[i].target == null ? false : true;
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    matrixGenerator.assignBase(i, Number(opponentInput.value) - 1);
+                    assignBases();
+                } else {
+                    matrixGenerator.unassignBase(i);
+                    assignBases();
+                }
+            })
+            assignedTD.classList.remove('hidden-td');
+            
 
             stars += Number(matrix[i][j]);
         }
@@ -512,7 +609,7 @@ const domController = (() => {
                 member.editCapability(i, starsInput.value);
 
                 // regenerate assignments if they have already been generated
-                if (document.querySelector("#target-1").textContent != "") {    
+                if (basesAssigned()) {    
                     matrixGenerator.regenerateForMember(memberIndex);
                     assignBases();
                     displayIndivCapPopup();
@@ -527,7 +624,7 @@ const domController = (() => {
             member.resetCapability();
             renderMemberCapabilityPopup(memberIndex);
             // regenerate assignments if they have already been generated
-            if (document.querySelector("#target-1").textContent != "") {    
+            if (basesAssigned()) {    
                 matrixGenerator.regenerateForMember(memberIndex);
                 assignBases();
                 displayIndivCapPopup();
@@ -567,11 +664,10 @@ const domController = (() => {
 
     // Helpers for displaying elements
     const displayMatrix = () => {
-        renderMatrix();
-        document.querySelector('.assignments').style.display = "block";
+        // renderMatrix();
+        document.querySelector('.assignments').style.display = "flex";
         document.querySelector('.member-input-div').style.display = "none";
         document.querySelector('.member-capability-popup').style.display = 'none';
-        window.scrollTo(0, 0);
         displayPreAssignment();
     }
 
@@ -579,7 +675,6 @@ const domController = (() => {
         document.querySelector('.assignments').style.display = "none";
         document.querySelector('.member-input-div').style.display = "none";
         document.querySelector('.member-capability-popup').style.display = 'flex';
-        window.scrollTo(0, 0);
         displayPreAssignment();
         
     }
@@ -588,8 +683,7 @@ const domController = (() => {
         document.querySelector('.assignments').style.display = "none";
         document.querySelector('.member-input-div').style.display = "block";
         document.querySelector('.member-capability-popup').style.display = 'none';
-        window.scrollTo(0, 0);
-        if (document.querySelector("#target-1").textContent != "") {   
+        if (basesAssigned()) {   
             // get stars
             let text = document.querySelector("#total-stars").textContent;
 
@@ -620,6 +714,10 @@ const domController = (() => {
     const assignBases = () => {
         renderText();
         renderMatrix();
+    }
+
+    const basesAssigned = () => {
+        return !document.querySelector("#target-1").classList.contains('hidden-td');
     }
 
     return {

@@ -1,10 +1,17 @@
 import { lineup } from "./lineup"
+import { matrixGenerator } from "./matrix-generator";
 import { Member } from "./member";
 
 const storage = (() => {
 
     const setStorage = () => {
         localStorage.setItem("lineup", JSON.stringify(lineup.getLineup()));
+
+        let matrix = matrixGenerator.getMatrix();
+        if (matrix != null) {
+            localStorage.setItem("matrix", JSON.stringify(matrixGenerator.getMatrix()));
+        }
+        
     }
 
     const getStorage = () => {
@@ -17,6 +24,8 @@ const storage = (() => {
                 if (oldMember != null) {
                     let newMember = new Member(oldMember.name, oldMember.memberTH, oldMember.opponentTH);
                     newMember.capabilities = oldMember.capabilities;
+                    newMember.target = oldMember.target;
+                    newMember.stars = oldMember.stars;
                     lineup.addMember(newMember, i + 1);
                 }
 
@@ -26,6 +35,20 @@ const storage = (() => {
         else 
         {
             addDefaultMembers();
+        }
+
+        let matrix = localStorage.getItem("matrix");
+        if (matrix != null) {
+            let values = JSON.parse(matrix);
+            console.log(values);
+            let m = matrixGenerator.generate();
+            for (let i = 0; i < Math.min(values.length, m.length); i++) {
+                let row = values[i];
+                for (let j = 0; j < values.length; j++) {
+                    let cell = Number(row[j]);
+                    matrixGenerator.setMatrix(i, j, cell);
+                }
+            }
         }
     }
 
