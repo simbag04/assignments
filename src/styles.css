@@ -140,44 +140,47 @@ svg:hover
 /* MATRIX POPUP */
 .popup
 {
-    position: absolute;
-    top: 2%;
-    left: 50%;
-    transform: translateX(-50%);
     padding: 20px;
     background-color: var(--middle-background);
     display: none;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
 }
 
 .matrix-table
 {
     border-collapse: collapse;
-    
+    table-layout: fixed;
+    border: 2px solid var(--header-background);
 }
 
 .matrix-table input
 {
-    border: none;
     font-size: 12px;
 }
 
 .matrix-table th
 {
-    font-size: 11px;
+    border: 2px solid var(--header-background);
+    color: white;
+    background-color: var(--header-background);
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    height: 1.5em;
 }
 
 .matrix-table td
 {
-    border: 2px solid black;
     margin: 0;
     padding: 0;
 }
 
 .matrix-table input[type='number']
 {
-    width: 1em;
+    width: 1.2em;
+    height: 1.2em;
     text-align: center;
 }
 
@@ -187,9 +190,15 @@ svg:hover
 }
 
 /* coloring for matrix cells */
-.lightgray
+.dark
 {
     background-color: var(--darker-background);
+    border: 2px solid var(--darker-background);
+}
+
+.light {
+    background-color: var(--light-background);
+    border: 2px solid var(--light-background);
 }
 
 .green
@@ -197,6 +206,7 @@ svg:hover
     background-color: green;
     font-weight: bold;
     color: white;
+    border: 2px solid green;
 }
 
 .sub-member-input-div, .sub-text-assignments-div
@@ -225,6 +235,10 @@ svg:hover
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: var(--header-background);
 }
 
 /* war size/buttons styling */
@@ -270,7 +284,7 @@ svg:hover
 /* Individual capabilities styling */
 .member-capability-popup
 {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
 }
@@ -383,7 +397,7 @@ td.first-td
     padding-right: 5px;
 }
 
-.assignment-td
+.assignment-td input
 {
     font-weight: bold;
     text-align: center;
