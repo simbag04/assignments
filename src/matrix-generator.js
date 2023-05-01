@@ -60,7 +60,6 @@ const matrixGenerator = (() => {
             for (let j = 0; j < assignedRows.length; j++) {
                 if (assignedRows[j]) {
                     if (members[j].target == target) {
-                        console.log(members[j].name)
                         unassignBase(j);
                         break;
                     }
@@ -89,7 +88,6 @@ const matrixGenerator = (() => {
         for (let j = 0; j < matrix.length; j++) {
             if (!assignedRows[j]) {
                 matrix[j][target] = origMatrix[j][target];
-                console.log(matrix[j][target]);
             }
             
             if (!assignedCols[j]) {
@@ -99,9 +97,6 @@ const matrixGenerator = (() => {
         }
 
         member.unassign();
-        console.log(matrix);
-
-
     }
 
     const getMatrix = () => {

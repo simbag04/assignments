@@ -97,9 +97,7 @@ const domController = (() => {
                 lineup.removeMember(numMembers);
             }
 
-            if (matrixGenerator.getMatrix() == null || matrixGenerator.getMatrix().length != numMembers) {
-                matrixGenerator.generate();
-            }
+            matrixGenerator.generate();
             renderText();
             renderMatrix();
         })
@@ -227,6 +225,11 @@ const domController = (() => {
                     currMember.memberTH = thInput.value;
                     currMember.resetCapability();
                     lineup.replaceMember(currMember, i);
+                }
+                if (basesAssigned()) {
+                    matrixGenerator.regenerateForMember(i);
+                    assignBases();
+
                 }
                 storage.setStorage();
             })
@@ -696,7 +699,7 @@ const domController = (() => {
     }
 
     const displayPostAssignment = (stars) => {
-        // document.querySelector('#view-matrix-button').style.display = 'inline-block';
+        document.querySelector('#view-matrix-button').style.display = 'inline-block';
         let copy = document.querySelector('#copy-button')
         copy.style.display = 'inline-block';
         copy.textContent = "Copy"; 
@@ -706,7 +709,7 @@ const domController = (() => {
     }
 
     const displayPreAssignment = () => {
-        // document.querySelector('#view-matrix-button').style.display = 'none';
+        document.querySelector('#view-matrix-button').style.display = 'none';
         document.querySelector('#copy-button').style.display = 'none';
         document.querySelector("#total-stars").style.display = "none";
     }

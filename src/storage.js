@@ -40,7 +40,6 @@ const storage = (() => {
         let matrix = localStorage.getItem("matrix");
         if (matrix != null) {
             let values = JSON.parse(matrix);
-            console.log(values);
             let m = matrixGenerator.generate();
             for (let i = 0; i < Math.min(values.length, m.length); i++) {
                 let row = values[i];
