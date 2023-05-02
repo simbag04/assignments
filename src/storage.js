@@ -52,36 +52,36 @@ const storage = (() => {
     }
 
     const addDefaultMembers = () => {
-        let m1 = new Member('North', '15-', 15);
-        let m2 = new Member('Kam', '15-', 15);
-        let m3 = new Member('Sparker', '15-', 15);
-        let m4 = new Member('Sim', '15-', 15);
-        let m5 = new Member('Womps', '15-', 15);
+        let m1 = new Member('Kam', '15-', 15);
+        let m2 = new Member('You', '15-', 15);
+        let m3 = new Member('Sim', '15-', 15);
+        let m4 = new Member('Womps', '15-', 15);
+        let m5 = new Member('Oscar', '14-', 14);
         let m6 = new Member('Park', '13-', 13);
         let m7 = new Member('Jose', '14-', 14);
-        let m8 = new Member('Hydro', '13+', 13);
+        let m8 = new Member('Miller', '13-', 13);
         let m9 = new Member('Vik', '13+', 13);
-        let m10 = new Member('Miller', '13-', 13);
-        let m11 = new Member('Aoja', '13+', 13);
-        let m12 = new Member('Risk', '13+', 13);
-        let m13 = new Member('H2', '13+', 13);
-        let m14 = new Member('Thinking', '13+', 13);
-        let m15 = new Member('Wizard', '13+', 13);
-        let m16 = new Member('Pink', '12-', 12);
-        let m17 = new Member('Stephen', '12+', 12);
-        let m18 = new Member('Superman', '12-', 12);
-        let m19 = new Member('Verit', '12-', 12);
-        let m20 = new Member('Coffee', '12-', 12);
-        let m21 = new Member('Kurz', '12+', 12);
-        let m22 = new Member('Thunder', '12-', 12);
-        let m23 = new Member('Rob', '12-', 12);
-        let m24 = new Member('Rize', '12-', 12);
-        let m25 = new Member('Hulk', '12+', 12);
-        let m26 = new Member('Quank', '12+', 12);
-        let m27 = new Member('Shonnen', '12+', 12);
-        let m28 = new Member('Havik', '12+', 12);
-        let m29 = new Member('Peezy', '12-', 12);
-        let m30 = new Member('LilDro', '12+', 12);
+        let m10 = new Member('Hydro', '13+', 13);
+        let m11 = new Member('YouToo', '13+', 13)
+        let m12 = new Member('Gorf', '13-', 13);
+        let m13 = new Member('Aoja', '13+', 13);
+        let m14 = new Member('Risk', '13+', 13);
+        let m15 = new Member('H2', '13+', 13);
+        let m16 = new Member('Skull', '13+', 13);
+        let m17 = new Member('Thinking', '13+', 13);
+        let m18 = new Member('Pink', '13+', 12);
+        let m19 = new Member('Stephen', '13-', 12);
+        let m20 = new Member('Wizard', '13+', 13);
+        let m21 = new Member('Thunder', '13-', 12);
+        let m22 = new Member('Kurz', '13+', 12);
+        let m23 = new Member('Hokage', '13-', 13);
+        let m24 = new Member('Rob', '12-', 12);
+        let m25 = new Member('Hulk', '13-', 12);
+        let m26 = new Member('Rize', '12-', 12);
+        let m27 = new Member('Star', '12-', 12);
+        let m28 = new Member('Jason', '12-', 12);
+        let m29 = new Member('Bade', '12-', 12);
+        let m30 = new Member('Princess', '12-', 12);
         lineup.addMember(m1, 1)
         lineup.addMember(m2, 2)
         lineup.addMember(m3, 3)
